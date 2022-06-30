@@ -1,4 +1,4 @@
-const { spawn } = require("child_process");
+const { spawn, exec } = require("child_process");
 const https = require("https");
 
 https.get("https://api.papermc.io/v2/projects/paper/versions/1.19/builds/", function (response) {
@@ -15,7 +15,7 @@ https.get("https://api.papermc.io/v2/projects/paper/versions/1.19/builds/", func
             var latest_build_number = Math.max(...builds.map(e => e.build));
             var latest_build = builds[builds.findIndex(o => o.build === latest_build_number)];
             var download_link = `https://api.papermc.io/v2/projects/paper/versions/1.19/builds/${latest_build_number}/downloads/${latest_build.downloads.application.name}`
-            var wget = spawn(`wget ${download_link} -O paper.jar`)
+            var wget = exec(`wget ${download_link} -O paper.jar`)
                 .on("error", function (error) {
                     console.error(error.name, error.message)
                 })
