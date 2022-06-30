@@ -23,7 +23,9 @@ https.get("https://api.papermc.io/v2/projects/paper/versions/1.19/builds/", func
                     console.log(`wget child process closed with exit code ${code}`)
                 });
             wget.stderr.pipe(process.stderr);
-            wget.stdout.pipe(process.stdout);
+            wget.stdout.on("data", function (data) {
+                console.log(data.toString());
+            });
         } catch (error) {
             console.error(error.message);
         }
