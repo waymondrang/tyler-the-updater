@@ -18,9 +18,9 @@ var spigot_ids = [{
     name: "Chunky"
 }]
 
-var paper_path = "~/test-minecraft-server/"
+var paper_path = "~/minecraft-server/"
 
-var plugin_path = "~/test-minecraft-server/plugins/"
+var plugin_path = "~/minecraft-server/plugins/"
 
 // download the latest version of papermc
 
