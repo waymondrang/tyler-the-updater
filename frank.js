@@ -72,7 +72,16 @@ https.get("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/api/json", 
             download_links.push("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/EssentialsX-.*.jar/))[0].relativePath);
             download_links.push("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/EssentialsXChat-.*.jar/))[0].relativePath);
             for (link of download_links) {
-                var wget = exec(`wget ${link} -nv -O essentials.jar`)
+                var rm = exec(`rm -rf EssentialsX-*.jar EssentialsXChat-*.jar`)
+                    .on("error", function (error) {
+                        console.error(error.name, error.message)
+                    })
+                    .on("close", function (code, signal) {
+                        console.log(`rm child process closed with exit code ${code}`)
+                    });
+                rm.stderr.pipe(process.stderr);
+                rm.stdout.pipe(process.stdout);
+                var wget = exec(`wget ${link} -nv`)
                     .on("error", function (error) {
                         console.error(error.name, error.message)
                     })
