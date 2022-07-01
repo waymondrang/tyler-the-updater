@@ -154,4 +154,4 @@ for (plugin of spigot_ids) {
     wget.stdout.pipe(process.stdout);
 }
 
-writeFileSync(`${paper_paper[0] === '~' ? path.join(process.env.HOME, paper_path.slice(1)) : paper_path}last_updated.txt`, new Date().toISOString(), { encoding: "utf8" });
+writeFileSync(`${paper_path[0] === '~' ? path.join(process.env.HOME, paper_path.slice(1)) : paper_path}last_updated.txt`, new Date().toISOString(), { encoding: "utf8" });
