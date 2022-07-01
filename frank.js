@@ -40,7 +40,7 @@ https.get("https://api.papermc.io/v2/projects/paper/versions/1.19/builds/", func
             var latest_build_number = Math.max(...builds.map(e => e.build));
             var latest_build = builds[builds.findIndex(o => o.build === latest_build_number)];
             var download_link = `https://api.papermc.io/v2/projects/paper/versions/1.19/builds/${latest_build_number}/downloads/${latest_build.downloads.application.name}`
-            var wget = exec(`wget -nv -O ${paper_path}paper.jar ${download_link}`)
+            var wget = spawn(`wget -nv -O ${paper_path}paper.jar ${download_link}`)
                 .on("error", function (error) {
                     console.error(error.name, error.message)
                 })
@@ -78,7 +78,7 @@ https.get("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/api/json", 
             download_links.push("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/EssentialsX-.*.jar/))[0].relativePath);
             download_links.push("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/EssentialsXChat-.*.jar/))[0].relativePath);
             for (link of download_links) {
-                var rm = exec(`rm -rf ${plugin_path}EssentialsX-*.jar ${plugin_path}EssentialsXChat-*.jar`)
+                var rm = spawn(`rm -rf ${plugin_path}EssentialsX-*.jar ${plugin_path}EssentialsXChat-*.jar`)
                     .on("error", function (error) {
                         console.error(error.name, error.message)
                     })
@@ -87,7 +87,7 @@ https.get("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/api/json", 
                     });
                 rm.stderr.pipe(process.stderr);
                 rm.stdout.pipe(process.stdout);
-                var wget = exec(`wget -nv -P ${plugin_path} ${link}`)
+                var wget = spawn(`wget -nv -P ${plugin_path} ${link}`)
                     .on("error", function (error) {
                         console.error(error.name, error.message)
                     })
@@ -121,7 +121,7 @@ https.get("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuc
             var download_links = [];
             download_links.push("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/Geyser-Spigot.jar/))[0].relativePath);
             for (link of download_links) {
-                var wget = exec(`wget -nv -O ${plugin_path}Geyser-Spigot.jar ${link}`)
+                var wget = spawn(`wget -nv -O ${plugin_path}Geyser-Spigot.jar ${link}`)
                     .on("error", function (error) {
                         console.error(error.name, error.message)
                     })
@@ -143,7 +143,7 @@ https.get("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuc
 
 for (plugin of spigot_ids) {
     var link = `https://api.spiget.org/v2/resources/${plugin.id}/download`
-    var wget = exec(`wget -nv -O ${plugin_path}${plugin.name}.jar ${link}`)
+    var wget = spawn(`wget -nv -O ${plugin_path}${plugin.name}.jar ${link}`)
         .on("error", function (error) {
             console.error(error.name, error.message)
         })
