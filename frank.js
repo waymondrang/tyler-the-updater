@@ -1,4 +1,5 @@
 const { spawn, exec } = require("child_process");
+const { writeFileSync } = require("fs");
 const https = require("https");
 
 var spigot_ids = [{
@@ -151,3 +152,5 @@ for (plugin of spigot_ids) {
     wget.stderr.pipe(process.stderr);
     wget.stdout.pipe(process.stdout);
 }
+
+writeFileSync(`${paper_path}last_updated.txt`, new Date().toISOString());
