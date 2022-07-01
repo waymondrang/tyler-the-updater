@@ -38,7 +38,7 @@ https.get("https://api.papermc.io/v2/projects/paper/versions/1.19/builds/", func
             var latest_build_number = Math.max(...builds.map(e => e.build));
             var latest_build = builds[builds.findIndex(o => o.build === latest_build_number)];
             var download_link = `https://api.papermc.io/v2/projects/paper/versions/1.19/builds/${latest_build_number}/downloads/${latest_build.downloads.application.name}`
-            var wget = exec(`wget ${download_link} -nv -P ${paper_path} -O paper.jar`)
+            var wget = exec(`wget ${download_link} -nv -O ${paper_path}paper.jar`)
                 .on("error", function (error) {
                     console.error(error.name, error.message)
                 })
@@ -141,7 +141,7 @@ https.get("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuc
 
 for (plugin of spigot_ids) {
     var link = `https://api.spiget.org/v2/resources/${plugin.id}/download`
-    var wget = exec(`wget ${link} -nv -P ${plugin_path} -O ${plugin.name}.jar`)
+    var wget = exec(`wget ${link} -nv -O ${plugin_path}${plugin.name}.jar`)
         .on("error", function (error) {
             console.error(error.name, error.message)
         })
