@@ -71,7 +71,7 @@ https.get("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/api/json", 
             var download_links = [];
             download_links.push("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/EssentialsX-.*.jar/))[0].relativePath);
             download_links.push("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/EssentialsXChat-.*.jar/))[0].relativePath);
-            for (link in download_links) {
+            for (link of download_links) {
                 var wget = exec(`wget ${link} -nv -O essentials.jar`)
                     .on("error", function (error) {
                         console.error(error.name, error.message)
@@ -105,7 +105,7 @@ https.get("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuc
             var artifacts = json.artifacts;
             var download_links = [];
             download_links.push("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/Geyser-Spigot.jar/))[0].relativePath);
-            for (link in download_links) {
+            for (link of download_links) {
                 var wget = exec(`wget ${link} -nv`)
                     .on("error", function (error) {
                         console.error(error.name, error.message)
@@ -126,7 +126,7 @@ https.get("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuc
     });
 })
 
-for (plugin in spigot_ids) {
+for (plugin of spigot_ids) {
     var link = `https://api.spiget.org/v2/resources/${plugin.id}/download`
     var wget = exec(`wget ${link} -nv -O ${plugin.name}.jar`)
         .on("error", function (error) {
