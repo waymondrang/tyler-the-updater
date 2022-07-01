@@ -1,4 +1,4 @@
-const { spawn, exec } = require("child_process");
+const { spawn, exec, spawnSync } = require("child_process");
 const { writeFileSync } = require("fs");
 const https = require("https");
 const path = require("path");
@@ -87,7 +87,7 @@ https.get("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/api/json", 
                     });
                 rm.stderr.pipe(process.stderr);
                 rm.stdout.pipe(process.stdout);
-                var wget = spawn("wget", ["-nv", "-P", plugin_path, link])
+                var wget = spawnSync("wget", ["-nv", "-P", plugin_path, link])
                     .on("error", function (error) {
                         console.error(error.name, error.message)
                     })
@@ -121,7 +121,7 @@ https.get("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuc
             var download_links = [];
             download_links.push("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/Geyser-Spigot.jar/))[0].relativePath);
             for (link of download_links) {
-                var wget = spawn("wget", ["-nv", "-O", `${plugin_path}Geyser-Spigot.jar`, link])
+                var wget = spawnSync("wget", ["-nv", "-O", `${plugin_path}Geyser-Spigot.jar`, link])
                     .on("error", function (error) {
                         console.error(error.name, error.message)
                     })
@@ -143,15 +143,12 @@ https.get("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuc
 
 for (plugin of spigot_ids) {
     var link = `https://api.spiget.org/v2/resources/${plugin.id}/download`
-    var wget = spawn("wget", ["-nv", "-O", `${plugin_path}${plugin.name}.jar`, link])
-        .on("error", function (error) {
-            console.error(error.name, error.message)
-        })
-        .on("close", function (code, signal) {
-            console.log(`wget child process closed with exit code ${code}`)
-        });
+    var wget = spawnSync("wget", ["-nv", "-O", `${plugin_path}${plugin.name}.jar`, link])
     wget.stderr.pipe(process.stderr);
     wget.stdout.pipe(process.stdout);
+    wget.error(function (error) {
+        console.error(error.name, error.message)
+    })
 }
 
 writeFileSync(`${paper_path[0] === '~' ? path.join(process.env.HOME, paper_path.slice(1)) : paper_path}last_updated.txt`, new Date().toISOString(), { encoding: "utf8" });
