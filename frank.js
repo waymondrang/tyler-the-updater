@@ -119,7 +119,7 @@ https.get("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuc
             var download_links = [];
             download_links.push("https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/" + artifacts.filter(e => e.fileName.match(/Geyser-Spigot.jar/))[0].relativePath);
             for (link of download_links) {
-                var wget = exec(`wget ${link} -nv -P ${plugin_path}`)
+                var wget = exec(`wget ${link} -nv -O ${plugin_path}Geyser-Spigot.jar`)
                     .on("error", function (error) {
                         console.error(error.name, error.message)
                     })
